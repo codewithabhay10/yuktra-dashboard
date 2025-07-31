@@ -1,8 +1,9 @@
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, CheckCircle2, Star, BarChart3 } from "lucide-react";
+import { TrendingUp, CheckCircle2, Star, BarChart3, Sparkles, MessageCircle, FileText, Lightbulb, ChevronDown } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   draftIdeas,
   trendingContent,
@@ -11,233 +12,274 @@ import {
   googleTrends,
 } from "@/components/yuktra-dashboard";
 
-export default function MainContent() {
+export default function IdeaPlayground() {
+  const topIdeas = [
+    { id: 1, text: "Leverage AI for content creation" },
+    { id: 2, text: "Remote work productivity hacks" },
+    { id: 3, text: "Personal branding strategies" },
+  ];
+  const linkedInNews = [
+    { id: 1, title: "AI is transforming the workplace", time: "2h ago" },
+    { id: 2, title: "Remote work trends in 2024", time: "4h ago" },
+    { id: 3, title: "Top skills employers want", time: "6h ago" },
+  ];
   return (
-    <div className="flex-1 overflow-auto">
-      <div className="p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-[#009077]">Idea playground</h1>
-          <Badge className="bg-[#ffd56d] text-[#272727] hover:bg-[#ffd56d]">
-            100% Words
-          </Badge>
+    <div
+      className="flex-1 p-6 overflow-x-hidden"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    >
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-4xl font-bold text-[#009077]">Idea playground</h1>
+        <div className="bg-white text-[#009077] font-semibold px-4 py-2 rounded-full border border-[#009077]">
+          100K Words
+        </div>
+      </div>
+
+      {/* Draft ideas section */}
+      <section className="mb-8 w-full">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-2 h-2 bg-[#009077] rounded-full"></div>
+          <h2 className="text-xl font-semibold text-[#009077]">Draft ideas</h2>
         </div>
 
-        {/* Draft Ideas */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-2 h-2 bg-[#009077] rounded-full"></div>
-            <h2 className="text-xl font-semibold text-[#009077]">
-              Draft ideas
+        <div
+          className="overflow-x-auto"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          <div className="flex gap-4">
+            {draftIdeas.map((idea, index) => (
+              <Card
+                key={index}
+                className="min-w-[260px] min-h-[160px] bg-[#009077] text-white border-0 shrink-0"
+              >
+                <CardContent className="p-4 h-full flex flex-col justify-between">
+                  <p className="text-sm mb-3">{idea.text}</p>
+                  <div className="flex justify-end">
+                    <div className="w-6 h-6 bg-white/20 rounded flex items-center justify-center">
+                      <span className="text-xs">📝</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trending Content section */}
+      <section className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="text-[#009077]" size={24} />
+            <h2 className="text-2xl font-semibold text-[#009077]">
+              Trending Content
             </h2>
           </div>
-          <div className="overflow-x-auto scrollbar-hide w-full">
-            <div className="flex gap-4 min-w-max flex-nowrap px-1">
-              {draftIdeas.map((idea, index) => (
-                <Card
-                  key={index}
-                  className="bg-[#009077] text-white border-0 min-w-[250px] max-w-[250px] rounded-xl shadow-md"
+          <div className="flex gap-4 text-[#009077] font-medium">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <Checkbox
+                className="border-[#009077] data-[state=checked]:bg-[#009077] data-[state=checked]:text-white"
+                defaultChecked
+              />
+              Trending Globally
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <Checkbox className="border-[#009077] data-[state=checked]:bg-[#009077] data-[state=checked]:text-white" />
+              Trending in your niche
+            </label>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {trendingContent.map((content) => (
+            <Card
+              key={content.id}
+              className="bg-white text-[#009077] rounded-lg shadow-md border border-[#e7fffb]"
+            >
+              <CardContent className="p-4 flex flex-col justify-between h-full">
+                <p className="text-sm mb-4">{content.text}</p>
+                <div className="flex justify-end">
+                  <Button
+                    variant="ghost"
+                    className="text-[#009077] hover:bg-[#009077]/10"
+                  >
+                    <Sparkles size={16} className="mr-1" /> Make post
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Topics for you section */}
+      <section className="mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <MessageCircle className="text-[#009077]" size={24} />
+          <h2 className="text-2xl font-semibold text-[#009077]">
+            Topics for you
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <Card className="bg-white rounded-lg shadow-md border border-[#e7fffb]">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold text-[#009077]">
+                Topics
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-0">
+              <div className="flex flex-col gap-2">
+                <Button className="bg-[#2db49c] text-white hover:bg-[#2db49c]/90 justify-start">
+                  Artificial Intelligence
+                </Button>
+                <Button
+                  variant="outline"
+                  className="border-[#2db49c] text-[#2db49c] hover:bg-[#2db49c]/10 justify-start bg-transparent"
                 >
-                  <CardContent className="p-4">
-                    <p className="text-sm mb-3 leading-snug">{idea.text}</p>
-                    <div className="flex justify-end">
-                      <div className="w-6 h-6 bg-white/20 rounded flex items-center justify-center">
-                        <span className="text-xs">📝</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Trending Content */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-[#009077]" />
-              <h2 className="text-xl font-semibold text-[#009077]">
-                Trending Content
-              </h2>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#009077]" />
-                <span className="text-sm text-[#272727]">
-                  Trending Globally
-                </span>
+                  Artificial Intelligence
+                </Button>
+                <Button
+                  variant="outline"
+                  className="border-[#2db49c] text-[#2db49c] hover:bg-[#2db49c]/10 justify-start bg-transparent"
+                >
+                  Artificial Intelligence
+                </Button>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#009077]" />
-                <span className="text-sm text-[#272727]">
-                  Trending in your niche
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-4 gap-4">
-            {trendingContent.map((content, index) => (
-              <Card key={index} className="bg-white border border-[#e5e5ef]">
-                <CardContent className="p-4">
-                  <p className="text-sm text-[#272727] mb-3">{content.text}</p>
-                  <div className="flex justify-end">
-                    <div className="w-6 h-6 bg-[#009077] rounded flex items-center justify-center">
-                      <span className="text-xs text-white">📈</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Topics for you */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-2 h-2 bg-[#009077] rounded-full"></div>
-            <h2 className="text-xl font-semibold text-[#009077]">
-              Topics for you
-            </h2>
-          </div>
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-semibold text-[#272727] mb-3">Topics</h3>
-              <div className="space-y-2">
-                {Array(3)
-                  .fill(0)
-                  .map((_, index) => (
-                    <Badge
-                      key={index}
-                      className="bg-[#009077] text-white hover:bg-[#009077] block w-fit"
-                    >
-                      Artificial Intelligence
-                    </Badge>
-                  ))}
-              </div>
-            </div>
-            <div>
-              <h3 className="font-semibold text-[#272727] mb-3">Top Ideas</h3>
-              <div className="space-y-3">
-                {Array(3)
-                  .fill(0)
-                  .map((_, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <Star className="w-4 h-4 text-[#ffd56d] mt-1 flex-shrink-0" />
-                      <div className="flex-1">
-                        <p className="text-sm text-[#272727] mb-1">
-                          Lorem ipsum massa volutpat cursus imperdiet vestibulum
-                          sed sit fringilla nec dignissim feugiat
-                        </p>
-                        <Button
-                          size="sm"
-                          className="bg-[#009077] hover:bg-[#2db49c] text-white text-xs"
-                        >
-                          Make post
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* News */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-[#009077] rounded-full"></div>
-              <h2 className="text-xl font-semibold text-[#009077]">News</h2>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#009077]" />
-                <span className="text-sm text-[#272727]">All News</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#009077]" />
-                <span className="text-sm text-[#272727]">News in my niche</span>
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-4 gap-4">
-            {newsItems.map((news, index) => (
-              <Card key={index} className="bg-white border border-[#e5e5ef]">
-                <CardContent className="p-4">
-                  <p className="text-sm text-[#272727] mb-3">{news.text}</p>
-                  <div className="flex justify-end">
-                    <div className="w-6 h-6 bg-[#009077] rounded flex items-center justify-center">
-                      <span className="text-xs text-white">📰</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Post ideas for you */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-2 h-2 bg-[#009077] rounded-full"></div>
-            <h2 className="text-xl font-semibold text-[#009077]">
-              Post ideas for you
-            </h2>
-          </div>
-          <div className="grid grid-cols-4 gap-4">
-            {postIdeas.map((idea, index) => (
-              <Card key={index} className="bg-white border border-[#e5e5ef]">
-                <CardContent className="p-4">
-                  <p className="text-sm text-[#272727] mb-3">{idea.text}</p>
-                  <div className="flex justify-end">
-                    <div className="w-6 h-6 bg-[#009077] rounded flex items-center justify-center">
-                      <span className="text-xs text-white">💡</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Google trends */}
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <BarChart3 className="w-5 h-5 text-[#009077]" />
-            <h2 className="text-xl font-semibold text-[#009077]">
-              Google trends
-            </h2>
-          </div>
-          <Card className="bg-white border border-[#e5e5ef]">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <Badge className="bg-[#e7fffb] text-[#009077] hover:bg-[#e7fffb]">
-                  Top
-                </Badge>
-              </div>
-              <div className="space-y-4">
-                {googleTrends.map((trend, index) => (
-                  <div key={index} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-[#272727]">
-                        {index + 1}. {trend.name}
-                      </span>
-                      <span className="text-sm text-[#009077] font-medium">
-                        {trend.percentage}%
-                      </span>
-                    </div>
-                    <Progress
-                      value={trend.percentage}
-                      className="h-2 bg-[#e5e5ef]"
-                    />
+            </CardContent>
+          </Card>
+          <Card className="bg-white rounded-lg shadow-md border border-[#e7fffb]">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg font-semibold text-[#009077]">
+                Top Ideas
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-4 pt-0">
+              <div className="flex flex-col gap-2">
+                {topIdeas.map((idea) => (
+                  <div
+                    key={idea.id}
+                    className="flex items-start gap-2 text-sm text-gray-700"
+                  >
+                    <Star size={16} className="text-yellow-500 mt-1 shrink-0" />
+                    <span>{idea.text}</span>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
         </div>
-      </div>
+      </section>
+
+      {/* News section */}
+      <section className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <FileText className="text-[#009077]" size={24} />
+            <h2 className="text-2xl font-semibold text-[#009077]">News</h2>
+          </div>
+          <div className="flex gap-4 text-[#009077] font-medium">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <Checkbox
+                className="border-[#009077] data-[state=checked]:bg-[#009077] data-[state=checked]:text-white"
+                defaultChecked
+              />
+              All News
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <Checkbox className="border-[#009077] data-[state=checked]:bg-[#009077] data-[state=checked]:text-white" />
+              News in my niche
+            </label>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {newsItems.map((news) => (
+            <Card
+              key={news.id}
+              className="bg-white text-[#009077] rounded-lg shadow-md border border-[#e7fffb]"
+            >
+              <CardContent className="p-4 flex flex-col justify-between h-full">
+                <p className="text-sm mb-4">{news.text}</p>
+                <div className="flex justify-end">
+                  <Button
+                    variant="ghost"
+                    className="text-[#009077] hover:bg-[#009077]/10"
+                  >
+                    <Sparkles size={16} className="mr-1" /> Make post
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Post ideas for you section */}
+      <section className="mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <Lightbulb className="text-[#009077]" size={24} />
+          <h2 className="text-2xl font-semibold text-[#009077]">
+            Post ideas for you
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {postIdeas.map((idea) => (
+            <Card
+              key={idea.id}
+              className="bg-white text-[#009077] rounded-lg shadow-md border border-[#e7fffb]"
+            >
+              <CardContent className="p-4 flex flex-col justify-between h-full">
+                <p className="text-sm mb-4">{idea.text}</p>
+                <div className="flex justify-end">
+                  <Button
+                    variant="ghost"
+                    className="text-[#009077] hover:bg-[#009077]/10"
+                  >
+                    <Sparkles size={16} className="mr-1" /> Make post
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Google trends section */}
+      <section className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <TrendingUp className="text-[#009077]" size={24} />
+            <h2 className="text-2xl font-semibold text-[#009077]">
+              Google trends
+            </h2>
+          </div>
+          <Button
+            variant="outline"
+            className="border-[#009077] text-[#009077] hover:bg-[#009077]/10 bg-transparent"
+          >
+            <Sparkles size={16} className="mr-1" /> Top{" "}
+            <ChevronDown size={16} className="ml-1" />
+          </Button>
+        </div>
+        <Card className="bg-white rounded-lg shadow-md border border-[#e7fffb]">
+          <CardContent className="p-4">
+            <div className="flex flex-col gap-4">
+              {googleTrends.map((trend, idx) => (
+                <div key={trend.name} className="flex items-center gap-4">
+                  <span className="font-semibold text-gray-700 w-12">
+                    {idx + 1}. {trend.name}
+                  </span>
+                  <Progress
+                    value={trend.percentage}
+                    className="flex-1 h-2 bg-[#e7fffb] [&>*]:bg-[#2db49c]"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    {trend.percentage}%
+                  </span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </section>
     </div>
   );
 }

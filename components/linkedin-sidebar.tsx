@@ -1,48 +1,47 @@
-import { MoreHorizontal } from "lucide-react"
+import { Info, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 
 // Removed LinkedInNewsSidebarProps type
 // linkedinNews is defined inside the component
-const linkedinNews = Array(7).fill({
+const linkedInNews = Array(7).fill({
     title: "TCS to let go of 12,000 people",
     time: "2h ago",
   })
 
 const LinkedInNewsSidebar: React.FC = () => (
-  <div className="w-80 bg-[#ffffff] border-l border-[#e5e5ef] p-6">
-    <div className="flex items-center justify-between mb-6">
+    <aside className="h-screen w-[320px] bg-white shadow-lg border-l border-[#e7fffb] p-6 overflow-y-auto "  style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+    <div className="flex justify-between items-center mb-6">
       <div>
-        <h3 className="font-semibold text-[#272727]">LinkedIn News</h3>
-        <p className="text-sm text-[#b3b3b3]">Top stories</p>
+        <h2 className="text-xl font-bold text-gray-900">LinkedIn News</h2>
+        <p className="text-sm text-gray-600">Top stories</p>
       </div>
-      <Button variant="ghost" size="icon" className="w-8 h-8">
-        <MoreHorizontal className="w-4 h-4" />
-      </Button>
+      <Info size={20} className="text-gray-500" />
     </div>
-
-    <div className="space-y-4">
-      {linkedinNews.map((news, index) => (
-        <Card key={index} className="bg-[#f8f8ff] border border-[#e5e5ef]">
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3 mb-3">
-              <div className="w-8 h-8 bg-[#009077] rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-xs text-white">📰</span>
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-[#272727] mb-1">{news.title}</p>
-                <p className="text-xs text-[#b3b3b3]">{news.time}</p>
-              </div>
+    <div className="flex flex-col gap-4">
+      {linkedInNews.map((news) => (
+        <div
+          key={news.id}
+          className="border border-gray-200 rounded-lg p-4"
+        >
+          <h3 className="text-sm font-medium text-gray-900 mb-2">
+            {news.title}
+          </h3>
+          <p className="text-xs text-gray-500 mb-3">{news.time}</p>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
+              <span className="text-xs">👥</span>
             </div>
-            <Button size="sm" className="bg-[#009077] hover:bg-[#2db49c] text-white w-full text-xs">
-              Make post with this news
+            <Button className="bg-[#2db49c] text-white hover:bg-[#2db49c]/90 text-xs px-3 py-1 h-auto ml-auto">
+              <Sparkles size={12} className="mr-1" /> Make post with this
+              news
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ))}
     </div>
-  </div>
+  </aside>
 );
 
 export default LinkedInNewsSidebar;

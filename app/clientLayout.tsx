@@ -14,7 +14,8 @@ export default function ClientRootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const toggleCollapse = () => setIsCollapsed((prev) => !prev);
 
   // Define sidebar widths
   const collapsedWidth = "92px" // Corresponds to w-23
@@ -23,15 +24,15 @@ export default function ClientRootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex h-screen">
+        <div className="flex h-screen w-screen flex ">
           <YuktraSidebar
-            isCollapsed={isSidebarCollapsed}
-            onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            isCollapsed={isCollapsed}
+            onToggleCollapse={toggleCollapse}
           />
           <main
             className={cn(
               "flex-1 overflow-auto bg-gray-50 transition-all duration-300",
-              isSidebarCollapsed ? `ml-[${collapsedWidth}]` : `ml-[${expandedWidth}]`,
+              isCollapsed ? `ml-[${collapsedWidth}]` : `ml-[${expandedWidth}]`,
             )}
           >
             {children}

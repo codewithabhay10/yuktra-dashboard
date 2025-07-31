@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import Sidebar from "./left-sidebar"
-import MainContent from "./main-content" 
 import LinkedInNewsSidebar from "./linkedin-sidebar"
+import MainContent from "./main-content";
 
 export const draftIdeas = Array(12).fill({
   text: "Make a good post on cat vs dog, please make it very interactive and useful",
