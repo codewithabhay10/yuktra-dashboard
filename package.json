@@ -50,6 +50,8 @@
     "next-themes": "latest",
     "react": "^18",
     "react-day-picker": "latest",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18",
     "react-hook-form": "latest",
     "react-resizable-panels": "latest",

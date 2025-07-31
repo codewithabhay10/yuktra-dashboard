@@ -1,21 +1,18 @@
-import type React from "react"
-import type { Metadata } from "next"
-import ClientRootLayout from "./clientLayout"
+"use client";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import ClientRootLayout from "./clientLayout";
 
-const metadata: Metadata = {
-  title: "Yuktra Dashboard",
-  description: "Content management and social media automation platform",
-    generator: 'v0.dev'
-}
-
-export { metadata }
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return <ClientRootLayout>{children}</ClientRootLayout>
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <DndProvider backend={HTML5Backend}>
+          <ClientRootLayout>{children}</ClientRootLayout>
+        </DndProvider>
+      </body>
+    </html>
+  );
 }
 
 

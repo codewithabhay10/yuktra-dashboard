@@ -2,6 +2,7 @@ import { Info, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
+import { useDrag } from "react-dnd";
 
 // Removed LinkedInNewsSidebarProps type
 // linkedinNews is defined inside the component
@@ -10,7 +11,7 @@ const linkedInNews = Array(7).fill({
     time: "2h ago",
   })
 
-const LinkedInNewsSidebar: React.FC = () => (
+const LinkedInNewsSidebar: React.FC<{ onNewsDrag?: (news: any) => void }> = () => (
     <aside className="h-screen w-[320px] bg-white shadow-lg border-l border-[#e7fffb] p-6 overflow-y-auto "  style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
     <div className="flex justify-between items-center mb-6">
       <div>
@@ -20,26 +21,37 @@ const LinkedInNewsSidebar: React.FC = () => (
       <Info size={20} className="text-gray-500" />
     </div>
     <div className="flex flex-col gap-4">
-      {linkedInNews.map((news) => (
-        <div
-          key={news.id}
-          className="border border-gray-200 rounded-lg p-4"
-        >
-          <h3 className="text-sm font-medium text-gray-900 mb-2">
-            {news.title}
-          </h3>
-          <p className="text-xs text-gray-500 mb-3">{news.time}</p>
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
-              <span className="text-xs">👥</span>
+      {linkedInNews.map((news) => {
+        const [{ isDragging }, drag] = useDrag(() => ({
+          type: "NEWS",
+          item: { news },
+          collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+          }),
+        }));
+        return (
+          <div
+            ref={drag as unknown as React.Ref<HTMLDivElement>}
+            key={news.id}
+            style={{ opacity: isDragging ? 0.5 : 1 }}
+            className="border border-gray-200 rounded-lg p-4"
+          >
+            <h3 className="text-sm font-medium text-gray-900 mb-2">
+              {news.title}
+            </h3>
+            <p className="text-xs text-gray-500 mb-3">{news.time}</p>
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
+                <span className="text-xs">👥</span>
+              </div>
+              <Button className="bg-[#2db49c] text-white hover:bg-[#2db49c]/90 text-xs px-3 py-1 h-auto ml-auto">
+                <Sparkles size={12} className="mr-1" /> Make post with this
+                news
+              </Button>
             </div>
-            <Button className="bg-[#2db49c] text-white hover:bg-[#2db49c]/90 text-xs px-3 py-1 h-auto ml-auto">
-              <Sparkles size={12} className="mr-1" /> Make post with this
-              news
-            </Button>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </aside>
 );

@@ -2,15 +2,20 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, CheckCircle2, Star, BarChart3, Sparkles, MessageCircle, FileText, Lightbulb, ChevronDown } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
-  draftIdeas,
-  trendingContent,
-  newsItems,
-  postIdeas,
-  googleTrends,
-} from "@/components/yuktra-dashboard";
+  TrendingUp,
+  CheckCircle2,
+  Star,
+  BarChart3,
+  Sparkles,
+  MessageCircle,
+  FileText,
+  Lightbulb,
+  ChevronDown,
+} from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useDrop } from "react-dnd";
+import { useState } from "react";
 
 export default function IdeaPlayground() {
   const topIdeas = [
@@ -23,6 +28,48 @@ export default function IdeaPlayground() {
     { id: 2, title: "Remote work trends in 2024", time: "4h ago" },
     { id: 3, title: "Top skills employers want", time: "6h ago" },
   ];
+
+  const [draftIdeas, setDraftIdeas] = useState([
+    { text: "Make a good post on cat vs dog, please make it very interactive and useful", icon: "📝" },
+    // ...other initial ideas if needed
+  ]);
+
+  const [, drop] = useDrop({
+    accept: "NEWS",
+    drop: (item: any) => {
+      setDraftIdeas((prev) => [
+        ...prev,
+        {
+          text: "Draft from LinkedIn News: " + (item.news.title || "Untitled"),
+          icon: "📝",
+        },
+      ]);
+    },
+  });
+
+  const trendingContent = Array(4).fill({
+    text: "Make a good post on cat vs dog, please make it very interactive and useful",
+    icon: "📈",
+  });
+
+  const newsItems = Array(4).fill({
+    text: "Make a good post on cat vs dog, please make it very interactive and useful",
+    icon: "📰",
+  });
+
+  const postIdeas = Array(4).fill({
+    text: "Make a good post on cat vs dog, please make it very interactive and useful",
+    icon: "💡",
+  });
+
+  const googleTrends = [
+    { name: "Weather", percentage: 100 },
+    { name: "Delhi", percentage: 85 },
+    { name: "Bombay", percentage: 60 },
+    { name: "Jaipur", percentage: 45 },
+    { name: "Goa", percentage: 30 },
+  ];
+
   return (
     <div
       className="flex-1 p-6 overflow-x-hidden"
@@ -42,21 +89,21 @@ export default function IdeaPlayground() {
           <h2 className="text-xl font-semibold text-[#009077]">Draft ideas</h2>
         </div>
 
-        <div
-          className="overflow-x-auto"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          <div className="flex gap-4">
+        <div ref={drop as unknown as React.Ref<HTMLDivElement>}>
+          <div
+            className="grid grid-rows-2 auto-cols-[260px] gap-4 w-max"
+            style={{ gridAutoFlow: "column" }}
+          >
             {draftIdeas.map((idea, index) => (
               <Card
                 key={index}
-                className="min-w-[260px] min-h-[160px] bg-[#009077] text-white border-0 shrink-0"
+                className="bg-[#009077] text-white border-0 rounded-xl min-h-[140px] flex flex-col justify-between shadow-md"
               >
                 <CardContent className="p-4 h-full flex flex-col justify-between">
-                  <p className="text-sm mb-3">{idea.text}</p>
-                  <div className="flex justify-end">
-                    <div className="w-6 h-6 bg-white/20 rounded flex items-center justify-center">
-                      <span className="text-xs">📝</span>
+                  <p className="text-sm">{idea.text}</p>
+                  <div className="flex justify-end mt-4">
+                    <div className="w-6 h-6 bg-white/20 rounded flex items-center justify-center cursor-pointer">
+                      <span className="text-xs">✖</span>
                     </div>
                   </div>
                 </CardContent>

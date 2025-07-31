@@ -173,7 +173,7 @@ export default function YuktraSidebar({
               >
                 <ChevronLeft size={14} />
               </Button>
-              <h1 className="text-4xl font-bold mb-7 pr-8">
+              <h1 className="text-3xl font-bold mb-7 ">
                 yukt<span className="inline-block rotate-45">↑</span>ra
               </h1>
               <nav className="space-y-1">
